@@ -99,53 +99,6 @@
 </script>
 @endpush
 
-<!-- Alumni Testimonials -->
-<div class="bg-gray-50 py-16 overflow-hidden">
-    <div class="container mx-auto px-4"></div>
-<div class="bg-gray-50 py-16">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12 hover:text-blue-600 transition">Alumni Kami</h2>
-
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Alumni 1 -->
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                <div class="flex items-center mb-4">
-                    <img src="https://i.pravatar.cc/150?img=1" alt="Alumni" class="w-16 h-16 rounded-full object-cover">
-                    <div class="ml-4">
-                        <h3 class="font-bold text-lg">Sarah Anderson</h3>
-                        <p class="text-blue-600">TOEFL Score: 650</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 italic">"Berkat LinguEdu, saya berhasil mendapatkan beasiswa S2 di University of Melbourne. Materinya sangat terstruktur dan mudah dipahami."</p>
-            </div>
-
-            <!-- Alumni 2 -->
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                <div class="flex items-center mb-4">
-                    <img src="https://i.pravatar.cc/150?img=2" alt="Alumni" class="w-16 h-16 rounded-full object-cover">
-                    <div class="ml-4">
-                        <h3 class="font-bold text-lg">Riko Tanaka</h3>
-                        <p class="text-blue-600">JLPT N2 Certified</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 italic">"Program bahasa Jepang LinguEdu membantu saya mendapatkan pekerjaan di perusahaan Jepang. Native speaker-nya sangat membantu!"</p>
-            </div>
-
-            <!-- Alumni 3 -->
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                <div class="flex items-center mb-4">
-                    <img src="https://i.pravatar.cc/150?img=3" alt="Alumni" class="w-16 h-16 rounded-full object-cover">
-                    <div class="ml-4">
-                        <h3 class="font-bold text-lg">Min Ji Kim</h3>
-                        <p class="text-blue-600">TOPIK Level 5</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 italic">"Sistem pembelajaran yang fleksibel memudahkan saya belajar sambil bekerja. Sekarang saya sudah fasih berbahasa Korea!"</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Keunggulan Section -->
 <div class="bg-white py-16">
     <div class="container mx-auto px-4">
