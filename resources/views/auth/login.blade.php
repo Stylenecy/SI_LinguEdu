@@ -1,68 +1,47 @@
-@extends('layouts.main')
-@section('title', 'Login - LinguEdu')
+<x-guest-layout>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-@section('content')
-<div class="min-h-screen flex items-center justify-center bg-blue-50 py-16 px-4">
-    <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center text-gray-900 mb-2">Selamat Datang Kembali!</h1>
-        <p class="text-center text-gray-500 mb-8">Masuk ke akun LinguEdu Anda untuk melanjutkan pembelajaran.</p>
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-        <!-- 🔔 Notifikasi -->
-        @if(session('error'))
-            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg text-center">
-                {{ session('error') }}
-            </div>
-        @endif
-        @if(session('success'))
-            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg text-center">
-                {{ session('success') }}
-            </div>
-        @endif
+        <!-- Email Address -->
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-        <!-- Form Login -->
-        <form method="POST" action="{{ route('login.simulasi.post') }}">
-            @csrf
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" id="email" name="email" placeholder="email@anda.com" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary bg-gray-50">
-                @error('email')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
 
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary bg-gray-50">
-                @error('password')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="current-password" />
 
-            <div class="mb-4 flex items-center">
-                <input type="checkbox" id="remember" name="remember" class="mr-2">
-                <label for="remember" class="text-sm text-gray-700">Ingat Saya</label>
-            </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-            <button type="submit"
-                class="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
-                Masuk Sekarang
-            </button>
-        </form>
+        <!-- Remember Me -->
+        <div class="block mt-4">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
+        </div>
 
-        <p class="text-sm text-center text-gray-500 mt-6">
-            Belum punya akun?
-            <a href="{{ route('register.simulasi') }}" class="text-blue-600 font-medium hover:underline">
-                Daftar di sini
-            </a>
-        </p>
-        <p class="text-sm text-center text-gray-500 mt-2">
-            Lupa password?
-            <a href="{{ route('password.request') }}" class="text-blue-600 font-medium hover:underline">
-                Reset di sini
-            </a>
-        </p>
-    </div>
-</div>
-@endsection
+        <div class="flex items-center justify-end mt-4">
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
+
+            <x-primary-button class="ms-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
