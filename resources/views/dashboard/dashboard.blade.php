@@ -10,7 +10,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h2 class="text-4xl font-extrabold text-indigo-700 tracking-tight drop-shadow-sm">
-                Selamat Datang Kembali 👋
+                Selamat Datang Kembali 👋 {{ Auth::user()->name ?? 'Pengguna' }}
             </h2>
             <p class="text-gray-500 mt-1 text-base">Terus lanjutkan perjalanan belajarmu hari ini!</p>
         </div>
@@ -20,40 +20,25 @@
         </a>
     </div>
 
+    {{-- Notifikasi Progres --}}
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-2xl shadow p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full">
+                <i class="fa-solid fa-bell text-lg"></i>
+            </div>
+            <div>
+                <p class="font-medium text-gray-800">Kamu sudah menyelesaikan 2 modul minggu ini 🎉</p>
+                <p class="text-sm text-gray-500">Tetap semangat untuk mencapai target mingguanmu!</p>
+            </div>
+        </div>
+        <a href="#" class="text-sm text-indigo-600 font-semibold hover:underline">Lihat Detail</a>
+    </div>
+
     {{-- Statistik Utama --}}
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {{-- Card 1 --}}
-        <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 flex items-center gap-4 border border-indigo-100 hover:scale-[1.02] hover:shadow-indigo-200 transition">
-            <div class="bg-gradient-to-br from-indigo-200 to-indigo-400 text-indigo-700 p-4 rounded-2xl shadow-inner">
-                <i class="fa-solid fa-user-graduate text-3xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Level Saat Ini</p>
-                <h3 class="text-2xl font-bold text-gray-800">Level 1</h3>
-            </div>
-        </div>
-
-        {{-- Card 2 --}}
-        <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 flex items-center gap-4 border border-purple-100 hover:scale-[1.02] hover:shadow-purple-200 transition">
-            <div class="bg-gradient-to-br from-purple-200 to-purple-400 text-purple-700 p-4 rounded-2xl shadow-inner">
-                <i class="fa-solid fa-book-open text-3xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Modul Selesai</p>
-                <h3 class="text-2xl font-bold text-gray-800">2 / 6</h3>
-            </div>
-        </div>
-
-        {{-- Card 3 --}}
-        <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 flex items-center gap-4 border border-yellow-100 hover:scale-[1.02] hover:shadow-yellow-200 transition">
-            <div class="bg-gradient-to-br from-yellow-200 to-yellow-400 text-yellow-700 p-4 rounded-2xl shadow-inner">
-                <i class="fa-solid fa-award text-3xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Rata-rata Nilai</p>
-                <h3 class="text-2xl font-bold text-gray-800">92%</h3>
-            </div>
-        </div>
+        <x-dashboard.card color="indigo" icon="fa-user-graduate" title="Level Saat Ini" value="Level 1"/>
+        <x-dashboard.card color="purple" icon="fa-book-open" title="Modul Selesai" value="2 / 6"/>
+        <x-dashboard.card color="yellow" icon="fa-award" title="Rata-rata Nilai" value="92%"/>
     </div>
 
     {{-- Progress Keseluruhan --}}
@@ -67,45 +52,51 @@
         </div>
     </div>
 
-    {{-- Daftar Kuis --}}
-    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-indigo-100">
-        <h3 class="font-semibold text-lg text-gray-800 mb-6">Progres Kuis</h3>
+    {{-- Aktivitas Terbaru --}}
+    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-purple-100">
+        <h3 class="font-semibold text-lg text-gray-800 mb-6">Aktivitas Terbaru</h3>
+        <ul class="space-y-4">
+            <li class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-100 p-3 rounded-full text-indigo-600">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-800 font-medium">Menyelesaikan Modul 2: Tata Bahasa</p>
+                        <p class="text-gray-500 text-sm">2 jam yang lalu</p>
+                    </div>
+                </div>
+                <span class="text-green-600 font-semibold text-sm">✅ Selesai</span>
+            </li>
+            <li class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-yellow-100 p-3 rounded-full text-yellow-600">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-800 font-medium">Mengulang Kuis: Pemahaman Dasar</p>
+                        <p class="text-gray-500 text-sm">Kemarin</p>
+                    </div>
+                </div>
+                <span class="text-yellow-600 font-semibold text-sm">🔁 Mengulang</span>
+            </li>
+        </ul>
+    </div>
 
-        <div class="space-y-4">
-            {{-- Kuis 1 --}}
-            <div class="flex justify-between items-center bg-gradient-to-r from-indigo-50 to-indigo-100 p-4 rounded-xl shadow-sm hover:scale-[1.01] transition">
-                <div>
-                    <p class="font-semibold text-sm text-gray-800">Kuis 1: Pengenalan</p>
-                    <p class="text-xs text-green-600 mt-1">✅ Lulus</p>
-                </div>
-                <div class="w-32 bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                </div>
+    {{-- Rekomendasi Pembelajaran Berikutnya --}}
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl shadow-lg p-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h3 class="text-2xl font-bold">Rekomendasi Selanjutnya 💡</h3>
+                <p class="text-indigo-100 mt-1">"Pelajari Modul 3: Percakapan Dasar Bahasa Inggris"</p>
             </div>
-
-            {{-- Kuis 2 --}}
-            <div class="flex justify-between items-center bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl shadow-sm hover:scale-[1.01] transition">
-                <div>
-                    <p class="font-semibold text-sm text-gray-800">Kuis 2: Pemahaman Dasar</p>
-                    <p class="text-xs text-yellow-600 mt-1">🔁 Mengulang</p>
-                </div>
-                <div class="w-32 bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div>
-                </div>
-            </div>
-
-            {{-- Kuis 3 --}}
-            <div class="flex justify-between items-center bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl shadow-sm hover:scale-[1.01] transition">
-                <div>
-                    <p class="font-semibold text-sm text-gray-800">Kuis 3: Latihan Soal</p>
-                    <p class="text-xs text-gray-500 mt-1">🔒 Belum Dibuka</p>
-                </div>
-                <div class="w-32 bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
-                </div>
-            </div>
+            <a href="{{ route('materi.modul3') }}"
+               class="bg-white text-indigo-700 px-6 py-2 rounded-xl shadow hover:bg-indigo-50 transition font-semibold">
+               Mulai Sekarang →
+            </a>
         </div>
     </div>
+
 </div>
 
 {{-- Animasi sederhana --}}
