@@ -39,3 +39,6 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
 Route::get('/forgot-password', function () {
     return 'Halaman lupa password masih dalam pengembangan.';
 })->name('password.request');
+
+Route::view('/dashboard/video', 'dashboard.video')->name('dashboard.video');
+
