@@ -5,27 +5,27 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home')->name('home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('Admin.dashboard');
 })->name('dashboard');
 
 Route::get('/paket', function () {
-    return view('paket');
+    return view('Admin.paket');
 })->name('paket');
 
 Route::get('/materi', function () {
-    return view('materi');
+    return view('Admin.materi');
 })->name('materi');
 
 Route::get('/kuis', function () {
-    return view('kuis');
+    return view('Admin.kuis');
 })->name('kuis');
 
 Route::get('/sertifikasi', function () {
-    return view('sertifikasi');
+    return view('Admin.sertifikasi');
 })->name('sertifikasi');
 
 Route::get('/manajemen-user', function () {
-    return view('manajemen-user');
+    return view('Admin.manajemen-user');
 })->name('manajemen-user');
 
 Route::get('/logout', function () {
