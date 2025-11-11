@@ -1,4 +1,4 @@
-@extends('dashboard.main')
+@extends('member.dashboard.main')
 
 @section('title', 'Materi Pembelajaran')
 
@@ -29,7 +29,7 @@
                     ['title' => 'Loops', 'desc' => 'Membuat perulangan menggunakan FOR, WHILE, dan DO WHILE.', 'img' => 'https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=800&q=80', 'progress' => 100]
                 ];
             @endphp
-
+            @php use Illuminate\Support\Str; @endphp
             @foreach ($materiLevel1 as $m)
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card shadow-sm h-100">
@@ -42,9 +42,14 @@
                             </div>
                             <div>
                                 <div class="progress mb-3">
-                                    <div class="progress-bar bg-success" style="width: <?php    echo $m['progress']; ?>%;"></div>
+                                    <div class="progress-bar bg-success" style="width: <?php    echo $m['progress']; ?>%;">
+                                    </div>
                                 </div>
-                                <button class="btn btn-success w-100">Mulai Belajar</button>
+                                <a href="{{ route('member.video', ['slug' => Str::slug($m['title'], '-')]) }}"
+                                    class="btn btn-success w-100">
+                                    Mulai Belajar
+                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -81,7 +86,8 @@
                             </div>
                             <div>
                                 <div class="progress mb-3">
-                                    <div class="progress-bar bg-success" style="width: <?php    echo $m['progress']; ?>%;"></div>
+                                    <div class="progress-bar bg-success" style="width: <?php    echo $m['progress']; ?>%;">
+                                    </div>
                                 </div>
                                 @if ($m['progress'] > 0)
                                     <button class="btn btn-success w-100">Lanjutkan</button>

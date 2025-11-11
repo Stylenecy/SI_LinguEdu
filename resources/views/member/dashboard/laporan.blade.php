@@ -1,36 +1,60 @@
-@extends('layouts.main')
+@extends('member.dashboard.main')
 @section('title', 'Laporan Progres - LinguEdu')
 
 @section('content')
-    <div class="min-h-screen flex flex-col md:flex-row bg-gray-100">
-        <aside class="w-full md:w-64 bg-white shadow-md p-6">
-            <a href="{{ route('dashboard.index') }}" class="block text-blue-600 font-bold mb-4 hover:underline">← Kembali ke
-                Dashboard</a>
-        </aside>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <main class="flex-1 p-8">
-            <h1 class="text-2xl font-bold mb-6">Laporan Progres</h1>
-            <table class="w-full bg-white shadow-md rounded-lg">
-                <thead class="bg-blue-50">
+<div class="container py-5">
+    <h3 class="fw-bold mb-4 text-primary">📊 Laporan Progres Belajar</h3>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="p-4 bg-white rounded shadow-sm">
+                <h6 class="fw-bold text-secondary mb-2">Level Kamu Saat Ini</h6>
+                <h4 class="fw-bold text-dark">Level 1 - Beginner</h4>
+                <p class="text-muted small mb-0">Terus lanjutkan belajar untuk naik ke Level 2!</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-4 bg-white rounded shadow-sm">
+                <h6 class="fw-bold text-secondary mb-2">Materi Diselesaikan</h6>
+                <h4 class="fw-bold text-success">3 / 10 Modul</h4>
+                <div class="progress mt-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" style="width: 30%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h6 class="fw-bold text-secondary mb-3">Detail Aktivitas Terakhir</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
                     <tr>
-                        <th class="p-3 text-left">Kuis</th>
-                        <th class="p-3 text-left">Nilai</th>
-                        <th class="p-3 text-left">Status</th>
+                        <th>Materi</th>
+                        <th>Status</th>
+                        <th>Nilai Kuis</th>
+                        <th>Tanggal</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody>
                     <tr>
-                        <td class="p-3">Kuis Salam & Perkenalan</td>
-                        <td class="p-3">80</td>
-                        <td class="p-3 text-green-600 font-semibold">Lulus</td>
+                        <td>Introduction to Programming</td>
+                        <td><span class="badge bg-success">Selesai</span></td>
+                        <td>90 / 100</td>
+                        <td>10 Nov 2025</td>
                     </tr>
                     <tr>
-                        <td class="p-3">Kuis Angka & Hari</td>
-                        <td class="p-3">60</td>
-                        <td class="p-3 text-red-600 font-semibold">Gagal</td>
+                        <td>Variabel dan Operator</td>
+                        <td><span class="badge bg-warning text-dark">Proses</span></td>
+                        <td>-</td>
+                        <td>Belum</td>
                     </tr>
                 </tbody>
             </table>
-        </main>
+        </div>
     </div>
+</div>
 @endsection

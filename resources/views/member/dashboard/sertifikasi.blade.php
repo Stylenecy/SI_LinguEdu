@@ -1,13 +1,12 @@
-@extends('layouts.main')
-@section('title', 'Sertifikasi - LinguEdu')
+@extends('member.dashboard.main')
+
+@section('title', 'Sertifikasi Pembelajaran')
 
 @section('content')
-    <div class="min-h-screen flex flex-col md:flex-row bg-gray-100">
-        <aside class="w-full md:w-64 bg-white shadow-md p-6">
-            <a href="{{ route('dashboard.index') }}" class="block text-blue-600 font-bold mb-4 hover:underline">← Kembali ke
-                Dashboard</a>
-        </aside>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/materi.css') }}">
 
+@section('content')
         <main class="flex-1 p-8 text-center">
             <h1 class="text-2xl font-bold mb-4">Ujian Sertifikasi</h1>
             <p class="text-gray-600 mb-6">Ujian ini hanya bisa diakses jika kamu sudah menyelesaikan semua level.</p>

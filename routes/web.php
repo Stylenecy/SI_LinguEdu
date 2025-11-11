@@ -29,16 +29,26 @@ Route::get('/logout', function () {
 
 // ======== DASHBOARD PAGES ========
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::view('/', 'dashboard.index')->name('index');
-    Route::view('/materi', 'dashboard.materi')->name('materi');
-    Route::view('/laporan', 'dashboard.laporan')->name('laporan');
-    Route::view('/sertifikasi', 'dashboard.sertifikasi')->name('sertifikasi');
+    Route::view('/', 'member.dashboard.index')->name('index');
+    Route::view('/materi', 'member.dashboard.materi')->name('materi');
+    Route::view('/laporan', 'member.dashboard.laporan')->name('laporan');
+    Route::view('/sertifikasi', 'member.dashboard.sertifikasi')->name('sertifikasi');
 });
+
+
 
 // Lupa Password simulasi
 Route::get('/forgot-password', function () {
     return 'Halaman lupa password masih dalam pengembangan.';
 })->name('password.request');
 
-Route::view('/dashboard/video', 'dashboard.video')->name('dashboard.video');
+Route::view('/dashboard/video', 'member.dashboard.video')->name('dashboard.video');
+Route::get('/member/video/{slug}', function ($slug) {
+    return view('member.dashboard.video', ['slug' => $slug]);
+})->name('member.video');
+Route::get('/member/teori', function () {
+    return view('member.dashboard.teori');
+})->name('member.teori');
+
+
 
