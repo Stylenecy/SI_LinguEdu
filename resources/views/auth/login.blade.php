@@ -1,5 +1,6 @@
-@extends('layouts.main')
-@section('title', 'Login - LinguEdu')
+<x-guest-layout>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
 @section('content')
     <div class="min-h-screen flex items-center justify-center bg-blue-50 py-16 px-4">
