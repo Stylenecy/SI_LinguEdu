@@ -1,5 +1,6 @@
-@extends('layouts.main')
-@section('title', 'Registrasi - LinguEdu')
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
 
 @section('content')
     <div class="min-h-screen bg-blue-50 py-10 px-4 flex flex-col items-center">
