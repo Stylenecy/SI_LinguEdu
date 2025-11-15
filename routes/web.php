@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+
 // Halaman utama
 Route::view('/', 'home')->name('home');
 
@@ -49,6 +50,18 @@ Route::get('/member/video/{slug}', function ($slug) {
 Route::get('/member/teori', function () {
     return view('member.dashboard.teori');
 })->name('member.teori');
+
+
+// Login Admin simulasi
+Route::view('/admin/login', 'auth.loginadmin')->name('admin.login');
+Route::post('/admin/login', function (Request $request) {
+    session(['admin' => true]);
+    return redirect('/admin/dashboard');
+})->name('admin.login.post');
+// Manajemen User Admin
+Route::view('/admin/users', 'Admin.manajemen-user')->name('admin.users');
+// Admin Dashboard
+Route::view('/admin/dashboard', 'Admin.dashboard')->name('admin.dashboard');
 
 
 
