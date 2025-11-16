@@ -12,12 +12,26 @@ Route::view('/', 'home')->name('home');
 // GET - Halaman Login
 Route::view('/login', 'auth.login')->name('login.simulasi');
 
-// POST - Aksi Login (simulasi)
+
 Route::post('/login', function (Request $request) {
-    // Simulasi: langsung login tanpa cek apapun
-    session(['user' => $request->input('email', 'guest@example.com')]);
+
+    $email = $request->email;
+    $password = $request->password;
+
+    // 🔐 Cek Login Admin
+    if ($email === 'adminlinguedu@gmail.com' && $password === 'admin1234') {
+        session(['user_role' => 'admin']);
+        session(['user_email' => $email]);
+        return redirect()->route('admin.dashboard'); // → menuju dashboard admin
+    }
+
+    // 🔐 Login Simulasi User Biasa
+    session(['user_role' => 'user']);
+    session(['user_email' => $email]);
     return redirect()->route('dashboard.index');
+
 })->name('login.simulasi.post');
+
 
 // GET - Halaman Register
 Route::view('/register', 'auth.register')->name('register.simulasi');
@@ -58,10 +72,39 @@ Route::post('/admin/login', function (Request $request) {
     session(['admin' => true]);
     return redirect('/admin/dashboard');
 })->name('admin.login.post');
-// Manajemen User Admin
-Route::view('/admin/users', 'Admin.manajemen-user')->name('admin.users');
-// Admin Dashboard
-Route::view('/admin/dashboard', 'Admin.dashboard')->name('admin.dashboard');
 
+
+// Dashboard Admin
+Route::get('/admin/dashboard', function () {
+    return view('Admin.dashboard');
+})->name('admin.dashboard');
+
+
+// ======== Menu Pengaturan Admin ========
+
+// Manajemen User
+Route::get('/admin/users', function () {
+    return view('Admin.Pages.users');
+})->name('admin.users');
+
+// Setting Paket
+Route::get('/admin/paket', function () {
+    return view('Admin.Pages.paket');
+})->name('admin.paket');
+
+// Setting Materi
+Route::get('/admin/materi', function () {
+    return view('Admin.Pages.materi');
+})->name('admin.materi');
+
+// Setting Kuis
+Route::get('/admin/kuis', function () {
+    return view('Admin.Pages.kuis');
+})->name('admin.kuis');
+
+// Setting Sertifikasi
+Route::get('/admin/sertifikasi', function () {
+    return view('Admin.Pages.sertifikasi');
+})->name('admin.sertifikasi');
 
 
