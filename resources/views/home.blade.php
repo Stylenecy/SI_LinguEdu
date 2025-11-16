@@ -1,136 +1,187 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LinguEdu - Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+@section('title', 'LinguEdu - Home')
 
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: fadeIn 1s ease-out; }
+@section('content')
 
-    .user-count-change { transition: transform 0.3s ease, color 0.3s ease; }
-    .user-count-change.bump { transform: scale(1.2); color: #fcd34d; }
-
-    .error-msg { animation: fadeIn 0.4s ease; }
-  </style>
-
-  <script>
-    // Realtime clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-  </script>
-</head>
-
-<body class="bg-gray-100 flex items-center justify-center min-h-screen fade-in">
-  <div class="w-11/12 md:w-3/4 lg:w-2/3 bg-white shadow-2xl rounded-3xl flex overflow-hidden transform transition duration-700 hover:scale-[1.01]">
-
-    <!-- Form Login -->
-    <div class="w-full md:w-1/2 p-10 flex flex-col justify-center">
-      <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">LinguEdu</h1>
-
-      <form id="loginForm" class="space-y-5">
-        <div>
-          <label class="block mb-1 font-semibold text-gray-600">Username</label>
-          <input id="username" type="text"
-                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300 transition"
-                 placeholder="Masukkan username">
-          <p id="usernameAlert" class="text-red-500 text-xs mt-1 hidden">🛑 Hanya huruf A–Z yang diperbolehkan.</p>
-        </div>
-        <div>
-          <label class="block mb-1 font-semibold text-gray-600">Password</label>
-          <input id="password" type="password"
-                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300 transition"
-                 placeholder="Masukkan password">
-        </div>
-        <p id="errorMsg" class="text-red-500 text-sm font-semibold hidden error-msg text-center"></p>
-        <button type="submit"
-                class="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 active:scale-95 transition duration-200 shadow-md hover:shadow-lg">
-          Login
+<!-- Hero Section -->
+<div class="relative bg-blue-600 text-white text-center py-24 overflow-hidden">
+    <div class="max-w-3xl mx-auto px-6 relative z-10">
+        <h1 class="text-5xl font-extrabold mb-4 animate-fadeIn">
+            Belajar Bahasa Dunia dengan <span class="text-yellow-300">LinguEdu</span>
+        </h1>
+        <p class="text-lg text-blue-100 mb-10">Tingkatkan kemampuanmu & raih sertifikasi internasional bersama kami.</p>
+        <button id="getStartedBtn" type="button" aria-haspopup="dialog" aria-controls="authModal"
+            class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-blue-100 transition-all transform hover:scale-105">
+            Mulai Sekarang
         </button>
-      </form>
     </div>
 
-    <!-- Dashboard mini -->
-    <div class="hidden md:flex w-1/2 bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex-col justify-center items-center p-10">
-      <div class="text-center mb-8 fade-in">
-        <h2 class="text-2xl font-semibold mb-2">Dashboard Overview</h2>
-        <p class="text-white text-opacity-80">Sesi pengguna LinguEdu</p>
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-600 via-blue-700 to-blue-800 opacity-40 pointer-events-none z-0"></div>
+</div>
+
+<!-- Modal Login / Register -->
+<div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl w-11/12 md:w-2/3 lg:w-1/2 p-8 relative animate-fadeSlide">
+        <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl" aria-label="Tutup">&times;</button>
+
+        <h2 class="text-3xl font-bold text-center mb-8 text-blue-700">Selamat Datang di LinguEdu!</h2>
+        <p class="text-center text-gray-600 mb-10">Pilih opsi untuk melanjutkan</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Login -->
+            <a href="{{ route('auth.login.simulasi') }}"
+                class="group border-2 border-blue-500 rounded-xl p-8 text-center hover:bg-blue-50 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition-transform">🔐</div>
+                <h3 class="text-xl font-bold text-blue-600 mb-2">Sudah Punya Akun?</h3>
+                <p class="text-gray-500">Masuk ke akunmu dan lanjutkan progres belajarmu.</p>
+                <span class="mt-4 inline-block text-sm text-blue-500 font-semibold group-hover:underline">Login Sekarang →</span>
+            </a>
+
+            <!-- Register -->
+            <a href="{{ route('auth.register.simulasi') }}"
+                class="group border-2 border-yellow-400 rounded-xl p-8 text-center hover:bg-yellow-50 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4 text-yellow-500 group-hover:scale-110 transition-transform">✨</div>
+                <h3 class="text-xl font-bold text-yellow-600 mb-2">Baru di LinguEdu?</h3>
+                <p class="text-gray-500">Daftar sekarang dan pilih program bahasa impianmu.</p>
+                <span class="mt-4 inline-block text-sm text-yellow-500 font-semibold group-hover:underline">Daftar Sekarang →</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    const btn = document.getElementById('getStartedBtn');
+    const modal = document.getElementById('authModal');
+    const close = document.getElementById('closeModal');
+
+    if (btn) {
+        btn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        });
+    }
+
+    if (close) {
+        close.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+    }
+
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+</script>
+@endpush
+
+<!-- Keunggulan -->
+<div class="bg-white py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 hover:text-blue-600 transition">Keunggulan Kami</h2>
+        <div class="grid md:grid-cols-4 gap-8">
+            @foreach ([
+                ['icon' => '🎓', 'title' => 'Sertifikasi Internasional', 'desc' => 'Dapatkan sertifikat resmi diakui dunia.'],
+                ['icon' => '👨‍🏫', 'title' => 'Native Speaker', 'desc' => 'Belajar langsung dari pengajar luar negeri.'],
+                ['icon' => '📱', 'title' => 'Fleksibel', 'desc' => 'Akses kelas kapan pun, di mana pun.'],
+                ['icon' => '💎', 'title' => 'Materi Premium', 'desc' => 'Koleksi materi terkurasi oleh ahli bahasa.']
+            ] as $item)
+            <div class="text-center p-6 hover:bg-blue-50 rounded-xl transition-all transform hover:-translate-y-2 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition">{{ $item['icon'] }}</div>
+                <h3 class="font-bold mb-2 group-hover:text-blue-600">{{ $item['title'] }}</h3>
+                <p class="text-gray-600 text-sm opacity-0 group-hover:opacity-100 transition">{{ $item['desc'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Program Bahasa -->
+<div class="bg-blue-50 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 hover:text-blue-600 transition">Program Bahasa</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            @foreach ([
+                ['flag' => 'gb', 'nama' => 'Bahasa Inggris', 'detail' => ['TOEFL', 'IELTS', 'Business English', 'Conversation']],
+                ['flag' => 'jp', 'nama' => 'Bahasa Jepang', 'detail' => ['JLPT N5-N1', 'Kanji Master', 'Daily Conversation']],
+                ['flag' => 'kr', 'nama' => 'Bahasa Korea', 'detail' => ['TOPIK I & II', 'K-Drama Korean', 'Hangul Master']]
+            ] as $lang)
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 relative group">
+                <img src="https://flagcdn.com/w160/{{ $lang['flag'] }}.png" class="w-32 mb-4 mx-auto hover:scale-110 transition">
+                <h3 class="text-xl font-bold mb-4 hover:text-blue-600">{{ $lang['nama'] }}</h3>
+                <ul class="list-disc pl-5 mb-4 space-y-2">
+                    @foreach ($lang['detail'] as $d)
+                    <li class="hover:text-blue-600 cursor-pointer transition">{{ $d }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Paket Belajar -->
+<div class="bg-white py-16" id="courses">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 hover:text-blue-600 transition">Paket Belajar LinguEdu</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Basic -->
+      <div class="border-2 border-blue-200 rounded-xl p-6 hover:border-blue-400 transition-all transform hover:-translate-y-2 hover:shadow-xl">
+        <h3 class="text-2xl font-bold mb-4 hover:text-blue-600">Basic</h3>
+        <ul class="space-y-3 mb-6 text-gray-700">
+          <li>🔹 8x Modul Video Interaktif</li>
+          <li>🔹 Latihan Soal Setiap Bab</li>
+          <li>🔹 Akses Quiz Otomatis dan Skor Langsung</li>
+          <li>🔹 Sertifikat Level Dasar (CEFR A1–A2)</li>
+          <li>🔹 Durasi akses 3 bulan</li>
+        </ul>
+        <a href="{{ route('auth.register.simulasi') }}" class="block text-center py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+           Pilih Paket Basic
+        </a>
       </div>
 
-      <div class="bg-white bg-opacity-20 rounded-2xl p-6 text-center shadow-lg w-60 fade-in">
-        <p class="text-lg">Active Users</p>
-        <p class="text-4xl font-bold mt-2 user-count-change" id="userCount">27</p>
+      <!-- Intermediate -->
+      <div class="border-2 border-yellow-400 rounded-xl p-6 bg-yellow-50 hover:border-yellow-500 transition-all transform hover:-translate-y-2 hover:shadow-xl relative">
+        <div class="absolute -top-4 right-4 bg-yellow-400 text-gray-900 px-4 py-1 rounded-full font-bold text-sm animate-bounce">Terfavorit!</div>
+        <h3 class="text-2xl font-bold mb-4 hover:text-yellow-600">Intermediate</h3>
+        <ul class="space-y-3 mb-6 text-gray-700">
+          <li>⭐ 12x Modul Terstruktur + Challenge Mingguan</li>
+          <li>⭐ Simulasi Listening & Reading Adaptif</li>
+          <li>⭐ Sistem Penilaian Otomatis per Level</li>
+        </ul>
+        <a href="{{ route('auth.register.simulasi') }}" class="block text-center py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-500 transition">
+           Pilih Paket Intermediate
+        </a>
       </div>
 
-      <div class="mt-6 bg-white bg-opacity-20 rounded-2xl p-4 text-center w-60 fade-in">
-        <p class="text-lg mb-1">Current Time</p>
-        <p class="text-2xl font-semibold" id="clock">--:--:--</p>
+      <!-- Advanced -->
+      <div class="border-2 border-blue-200 rounded-xl p-6 hover:border-blue-400 transition-all transform hover:-translate-y-2 hover:shadow-xl">
+        <h3 class="text-2xl font-bold mb-4 hover:text-blue-600">Advanced + Sertifikasi</h3>
+        <ul class="space-y-3 mb-6 text-gray-700">
+          <li>🏅 20x Modul Advanced + Ujian Akhir</li>
+          <li>🏅 Akses Semua Level Sebelumnya (Basic + Intermediate)</li>
+          <li>🏅 Sertifikat Resmi LinguEdu (CEFR C1–C2)</li>
+        </ul>
+        <a href="{{ route('auth.register.simulasi') }}" class="block text-center py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+           Pilih Paket Sertifikasi
+        </a>
       </div>
+    </div>
+
+    <div class="text-center mt-10">
+      <p class="text-gray-500 text-sm">Semua paket sudah termasuk akses dashboard, laporan kemajuan otomatis, dan evaluasi AI.</p>
     </div>
   </div>
+</div>
 
-  <script>
-    // Update jumlah user aktif
-    function updateUserCount() {
-      const count = Math.floor(20 + Math.random() * 30);
-      const userCountEl = document.getElementById('userCount');
-      userCountEl.classList.add('bump');
-      setTimeout(() => userCountEl.classList.remove('bump'), 300);
-      userCountEl.textContent = count;
-    }
-    setInterval(updateUserCount, 4000);
-    updateClock();
-    updateUserCount();
-
-    // 🔒 Batasi input username hanya huruf (tanpa angka, spasi, simbol)
-    const usernameInput = document.getElementById("username");
-    const usernameAlert = document.getElementById("usernameAlert");
-    let alertTimeout = null;
-
-    usernameInput.addEventListener("input", function (e) {
-      const cleaned = e.target.value.replace(/[^A-Za-z]/g, ""); // hanya huruf A-Z
-      if (e.target.value !== cleaned) {
-        e.target.value = cleaned;
-
-        // tampilkan notifikasi
-        usernameAlert.classList.remove("hidden");
-
-        // sembunyikan otomatis setelah 2 detik
-        clearTimeout(alertTimeout);
-        alertTimeout = setTimeout(() => {
-          usernameAlert.classList.add("hidden");
-        }, 2000);
-      }
-    });
-
-    // Fungsi validasi login
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorMsg = document.getElementById("errorMsg");
-
-      if (!username || !password) {
-        errorMsg.textContent = "⚠️ Harap isi semua kolom sebelum login.";
-        errorMsg.classList.remove("hidden");
-        return;
-      }
-
-      // Jika lolos validasi
-      errorMsg.classList.add("hidden");
-
-      // Simulasi redirect (tanpa backend)
-      window.location.href = "{{ route('dashboard') }}";
-    });
-  </script>
-</body>
-</html>
+@endsection

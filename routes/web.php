@@ -4,6 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
 
+Route::get('/login-simulasi', function () {
+    return view('auth.login');
+})->name('auth.login.simulasi');
+
+Route::get('/register-simulasi', function () {
+    return view('auth.register');
+})->name('auth.register.simulasi');
+
 Route::get('/dashboard', function () {
     return view('Admin.dashboard');
 })->name('dashboard');
