@@ -27,7 +27,8 @@
 
         <div class="grid md:grid-cols-2 gap-6">
             <!-- Login Card -->
-            <a href="{{ route('login.simulasi') }}"
+            <!-- PERBAIKAN: Mengganti route('login.simulasi') menjadi route('login') -->
+            <a href="{{ route('login') }}"
                class="group border-2 border-blue-500 rounded-xl p-8 text-center hover:bg-blue-50 transition-all duration-300 transform hover:-translate-y-2">
                 <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition-transform">🔐</div>
                 <h3 class="text-xl font-bold text-blue-600 mb-2">Sudah Punya Akun?</h3>
@@ -36,7 +37,8 @@
             </a>
 
             <!-- Register Card -->
-            <a href="{{ route('register.simulasi') }}"
+            <!-- PERBAIKAN: Mengganti route('register.simulasi') menjadi route('register') -->
+            <a href="{{ route('register') }}"
                class="group border-2 border-yellow-400 rounded-xl p-8 text-center hover:bg-yellow-50 transition-all duration-300 transform hover:-translate-y-2">
                 <div class="text-5xl mb-4 text-yellow-500 group-hover:scale-110 transition-transform">✨</div>
                 <h3 class="text-xl font-bold text-yellow-600 mb-2">Baru di LinguEdu?</h3>
@@ -169,7 +171,8 @@
           <li>🔹 Durasi akses 3 bulan</li>
           <li>🔹 Cocok untuk pemula tanpa pengalaman</li>
         </ul>
-        <a href="{{ route('register.simulasi') }}"
+        <!-- PERBAIKAN: Mengganti route('register.simulasi') menjadi route('register') -->
+        <a href="{{ route('register') }}"
            class="block text-center py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
            Pilih Paket Basic
         </a>
@@ -188,7 +191,8 @@
           <li>⭐ Fitur “Retry Quiz” & Progress Tracking Realtime</li>
           <li>⭐ Unlock Badge & Leveling Achievement</li>
         </ul>
-        <a href="{{ route('register.simulasi') }}"
+        <!-- PERBAIKAN: Mengganti route('register.simulasi') menjadi route('register') -->
+        <a href="{{ route('register') }}"
            class="block text-center py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-500 transition">
            Pilih Paket Intermediate
         </a>
@@ -206,7 +210,8 @@
           <li>🏅 Durasi akses 1 tahun</li>
           <li>🏅 Akses ke Ujian Sertifikasi Nasional/Internasional</li>
         </ul>
-        <a href="{{ route('register.simulasi') }}"
+        <!-- PERBAIKAN: Mengganti route('register.simulasi') menjadi route('register') -->
+        <a href="{{ route('register') }}"
            class="block text-center py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
            Pilih Paket Sertifikasi
         </a>
@@ -220,3 +225,4 @@
     </div>
   </div>
 </div>
+@endsection
