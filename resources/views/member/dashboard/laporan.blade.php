@@ -1,57 +1,62 @@
 @extends('member.dashboard.main')
-@section('title', 'Laporan Progres - LinguEdu')
+@section('title', 'Progress — LinguEdu')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-page py-10">
+    <span class="eyebrow">Laporan</span>
+    <h1 class="mt-3 font-display text-3xl font-semibold text-ink sm:text-4xl">Progres Belajar</h1>
 
-<div class="container py-5">
-    <h3 class="fw-bold mb-4 text-primary">📊 Laporan Progres Belajar</h3>
-
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="p-4 bg-white rounded shadow-sm">
-                <h6 class="fw-bold text-secondary mb-2">Level Kamu Saat Ini</h6>
-                <h4 class="fw-bold text-dark">Level 1 - Beginner</h4>
-                <p class="text-muted small mb-0">Terus lanjutkan belajar untuk naik ke Level 2!</p>
-            </div>
+    {{-- Stat cards --}}
+    <div class="mt-8 grid gap-5 sm:grid-cols-3">
+        <div class="card p-6">
+            <p class="text-sm text-muted">Level saat ini</p>
+            <p class="mt-2 font-display text-2xl font-semibold text-ink">Level {{ $currentLevel }}</p>
+            <p class="text-sm text-brand">{{ ['', 'Beginner', 'Intermediate', 'Advanced'][$currentLevel] ?? 'Advanced' }}</p>
         </div>
-
-        <div class="col-md-6">
-            <div class="p-4 bg-white rounded shadow-sm">
-                <h6 class="fw-bold text-secondary mb-2">Materi Diselesaikan</h6>
-                <h4 class="fw-bold text-success">3 / 10 Modul</h4>
-                <div class="progress mt-3" style="height: 8px;">
-                    <div class="progress-bar bg-success" style="width: 30%;"></div>
-                </div>
-            </div>
+        <div class="card p-6">
+            <p class="text-sm text-muted">Materi diselesaikan</p>
+            <p class="mt-2 font-display text-2xl font-semibold text-ink">{{ $completed }} / {{ $totalLessons }}</p>
+            <div class="mt-3 track"><div class="track-fill" style="width: {{ $percent }}%"></div></div>
+        </div>
+        <div class="card p-6">
+            <p class="text-sm text-muted">Rata-rata nilai kuis</p>
+            <p class="mt-2 font-display text-2xl font-semibold text-brand">{{ $avgScore }}<span class="text-base text-muted"> / 100</span></p>
+            <p class="text-sm text-muted">dari materi yang selesai</p>
         </div>
     </div>
 
-    <div class="mt-5">
-        <h6 class="fw-bold text-secondary mb-3">Detail Aktivitas Terakhir</h6>
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Materi</th>
-                        <th>Status</th>
-                        <th>Nilai Kuis</th>
-                        <th>Tanggal</th>
+    {{-- Activity table --}}
+    <div class="card mt-8 overflow-hidden p-0">
+        <div class="border-b border-line px-6 py-4">
+            <h2 class="font-semibold text-ink">Detail Aktivitas</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-line text-left text-muted">
+                        <th class="px-6 py-3 font-medium">Materi</th>
+                        <th class="px-6 py-3 font-medium">Level</th>
+                        <th class="px-6 py-3 font-medium">Status</th>
+                        <th class="px-6 py-3 font-medium">Nilai</th>
+                        <th class="px-6 py-3 font-medium">Tanggal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Introduction to Programming</td>
-                        <td><span class="badge bg-success">Selesai</span></td>
-                        <td>90 / 100</td>
-                        <td>10 Nov 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Variabel dan Operator</td>
-                        <td><span class="badge bg-warning text-dark">Proses</span></td>
-                        <td>-</td>
-                        <td>Belum</td>
-                    </tr>
+                    @forelse ($completedLessons as $l)
+                        <tr class="border-b border-line last:border-0">
+                            <td class="px-6 py-4 font-medium text-ink">{{ $l->title }}</td>
+                            <td class="px-6 py-4 text-muted">{{ $l->levelName() }}</td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Selesai</span></td>
+                            <td class="px-6 py-4 text-ink">{{ $l->pivot->score ?? '-' }}</td>
+                            <td class="px-6 py-4 text-muted">{{ $l->pivot->completed_at ? \Carbon\Carbon::parse($l->pivot->completed_at)->translatedFormat('d M Y') : '-' }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-10 text-center text-muted">
+                                Belum ada materi selesai. Mulai dari <a href="{{ route('dashboard.materi') }}" class="font-semibold text-brand hover:underline">halaman Materi</a>.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

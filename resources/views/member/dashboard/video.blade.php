@@ -1,47 +1,32 @@
 @extends('member.dashboard.main')
-
-@section('title', 'Video Pembelajaran')
+@section('title', $lesson->title . ' — Video')
 
 @section('content')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/video.css') }}">
+<div class="container-page py-10" style="max-width:64rem">
+    <a href="{{ route('dashboard.materi') }}" class="text-sm text-muted hover:text-brand">← Kembali ke Materi</a>
 
-    <div
-        class="container-fluid bg-dark text-light py-5 min-vh-100 d-flex flex-column align-items-center justify-content-center">
-        <div class="col-12 col-lg-10 position-relative">
-            <div class="ratio ratio-16x9 rounded shadow-lg overflow-hidden">
-                <iframe id="videoFrame" src="https://www.youtube.com/embed/Kvb4gfoMprM?rel=0&modestbranding=1&controls=1"
-                    title="Video Pembelajaran" allowfullscreen></iframe>
-            </div>
+    <div class="mt-4 flex items-center gap-3">
+        <span class="badge badge-brand">Level {{ $lesson->level }} · {{ $lesson->levelName() }}</span>
+        <span class="badge badge-muted">Langkah 1 dari 3 · Video</span>
+    </div>
+    <h1 class="mt-3 font-display text-3xl font-semibold text-ink">{{ $lesson->title }}</h1>
+    <p class="mt-2 max-w-2xl text-muted">{{ $lesson->description }}</p>
 
-            <!-- Tombol Lanjut -->
-            <button id="nextBtn" class="btn btn-light btn-sm position-absolute end-0 bottom-0 m-3 px-4 py-2 shadow-lg">
-                Lanjut ke Teori 📘
-            </button>
-        </div>
-
-        <div class="col-12 col-lg-10 mt-4 px-3">
-            <h2 class="fw-bold text-white">Introduction to Programming</h2>
-            <p class="text-secondary mb-0">
-                Pelajari dasar-dasar logika dan konsep pemrograman yang menjadi fondasi semua bahasa pemrograman.
-            </p>
+    <div class="mt-6 overflow-hidden rounded-3xl border border-line bg-black shadow-[var(--shadow-lift)]">
+        <div class="relative w-full" style="aspect-ratio:16/9">
+            <iframe class="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/{{ $lesson->video_url ?: 'Kvb4gfoMprM' }}?rel=0&modestbranding=1"
+                title="{{ $lesson->title }}" allowfullscreen></iframe>
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            nextBtn = document.getElementById("nextBtn");
-
-            // pastikan bisa diklik setelah muncul
-            nextBtn.addEventListener("click", () => {
-                window.location = "/member/teori";
-                console.log("Tombol Lanjut diklik");
-            });
-
-            // muat API YouTube
-            const tag = document.createElement("script");
-            tag.src = "https://www.youtube.com/iframe_api";
-            document.body.appendChild(tag);
-        });
-    </script>
+    <div class="mt-6 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-sm text-muted">
+            <span class="h-2 w-8 rounded-full bg-brand-500"></span>
+            <span class="h-2 w-8 rounded-full bg-brand-100"></span>
+            <span class="h-2 w-8 rounded-full bg-brand-100"></span>
+        </div>
+        <a href="{{ route('member.theory', $lesson->slug) }}" class="btn btn-primary btn-lg">Lanjut ke Teori 📖</a>
+    </div>
+</div>
 @endsection

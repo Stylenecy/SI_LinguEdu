@@ -1,313 +1,135 @@
 @extends('layouts.admin')
+
 @section('title', 'Manajemen Paket')
+@section('page_title', 'Paket')
 
 @section('content')
 
-<div class="p-6">
+    {{-- Flash & Validation --}}
+    @if (session('status'))
+        <div class="alert alert-success mb-5">{{ session('status') }}</div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger mb-5">
+            <ul class="list-disc ps-5">@foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        </div>
+    @endif
 
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Manajemen Paket Belajar</h1>
-
-        <button onclick="openAddModal()" 
-            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 shadow">
-            + Tambah Paket
-        </button>
+    {{-- Intro --}}
+    <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <p class="eyebrow">Manajemen</p>
+            <h2 class="mt-1 font-display text-3xl font-semibold text-ink">Paket Belajar</h2>
+            <p class="mt-1 text-sm text-muted">Atur paket langganan, harga, dan durasi.</p>
+        </div>
+        <button type="button" onclick="openAddModal()" class="btn btn-primary">+ Tambah Paket</button>
     </div>
 
-    <!-- Container Data -->
-    <div id="paketContainer" class="bg-white shadow rounded-lg overflow-hidden">
-        <table class="w-full border-collapse">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="p-4 text-left">Nama Paket</th>
-                    <th class="p-4 text-left">Deskripsi</th>
-                    <th class="p-4 text-center">Harga</th>
-                    <th class="p-4 text-center">Bahasa</th>
-                    <th class="p-4 text-center">Aksi</th>
-                </tr>
-            </thead>
-
-            <tbody id="paketList"></tbody>
-        </table>
+    {{-- Tabel Paket --}}
+    <div class="card p-6">
+        <h3 class="mb-4 font-display text-lg font-semibold text-ink">Daftar Paket</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-line text-left text-muted">
+                        <th class="py-3 font-medium">Nama Paket</th>
+                        <th class="py-3 font-medium">Deskripsi</th>
+                        <th class="py-3 text-center font-medium">Harga</th>
+                        <th class="py-3 text-center font-medium">Bahasa</th>
+                        <th class="py-3 text-center font-medium">Durasi</th>
+                        <th class="py-3 text-center font-medium">Status</th>
+                        <th class="py-3 text-center font-medium">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($packages as $p)
+                        <tr class="border-b border-line align-top">
+                            <td class="py-3 font-semibold text-ink">{{ $p->name }}</td>
+                            <td class="py-3 text-muted">{{ $p->description }}</td>
+                            <td class="py-3 text-center font-semibold text-ink">Rp {{ number_format($p->price, 0, ',', '.') }}</td>
+                            <td class="py-3 text-center">
+                                <span class="badge badge-brand">{{ $p->language }}</span>
+                            </td>
+                            <td class="py-3 text-center text-muted">{{ $p->duration_days }} hari</td>
+                            <td class="py-3 text-center">
+                                @if ($p->is_active)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-muted">Nonaktif</span>
+                                @endif
+                            </td>
+                            <td class="py-3 text-center">
+                                <form method="POST" action="{{ route('admin.paket.destroy', $p) }}"
+                                      onsubmit="return confirm('Hapus paket {{ $p->name }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-ghost btn-sm" style="color: var(--color-danger)">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="py-8 text-center text-muted">Belum ada paket.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<!-- =======================
-    MODAL TAMBAH
-======================= -->
-<div id="addModal"
-    class="fixed inset-0 bg-black bg-opacity-40 hidden justify-center items-center z-50">
+    {{-- Modal Tambah --}}
+    <div id="addModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink-900/40 p-4 backdrop-blur-sm">
+        <form method="POST" action="{{ route('admin.paket.store') }}" class="card w-full max-w-lg p-6">
+            @csrf
+            <h3 class="mb-5 font-display text-xl font-semibold text-ink">Tambah Paket</h3>
 
-    <div class="bg-white w-11/12 md:w-1/2 rounded-xl p-6 shadow-lg">
-        <h2 class="text-2xl font-semibold mb-4">Tambah Paket</h2>
-
-        <div class="mb-4">
-            <label class="font-semibold">Nama Paket</label>
-            <input id="addNama" type="text" class="w-full border p-2 rounded-lg">
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Harga</label>
-            <input id="addHarga" type="number" class="w-full border p-2 rounded-lg">
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Fitur Paket (pisahkan dengan enter)</label>
-            <textarea id="addFitur" class="w-full border p-2 rounded-lg"></textarea>
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Bahasa Tersedia</label>
-
-            <div class="grid grid-cols-3 gap-3 mt-2">
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Inggris" class="add-bahasa">
-                    <span>Inggris</span>
-                </label>
-
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Jepang" class="add-bahasa">
-                    <span>Jepang</span>
-                </label>
-
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Korea" class="add-bahasa">
-                    <span>Korea</span>
-                </label>
+            <div class="space-y-4">
+                <div>
+                    <label class="field-label">Nama Paket</label>
+                    <input name="name" value="{{ old('name') }}" type="text" class="field" required>
+                </div>
+                <div>
+                    <label class="field-label">Deskripsi</label>
+                    <textarea name="description" class="field" rows="3">{{ old('description') }}</textarea>
+                </div>
+                <div>
+                    <label class="field-label">Harga (Rp)</label>
+                    <input name="price" value="{{ old('price') }}" type="number" class="field" required>
+                </div>
+                <div>
+                    <label class="field-label">Bahasa</label>
+                    <input name="language" value="{{ old('language') }}" type="text" class="field" placeholder="Inggris / Jepang / Korea" required>
+                </div>
+                <div>
+                    <label class="field-label">Durasi (hari)</label>
+                    <input name="duration_days" value="{{ old('duration_days') }}" type="number" class="field" required>
+                </div>
             </div>
-        </div>
 
-        <div class="flex justify-end mt-6">
-            <button onclick="closeAddModal()" class="px-4 py-2 bg-gray-300 rounded mr-2">Batal</button>
-
-            <button onclick="saveAdd()" 
-                class="px-4 py-2 bg-blue-600 text-white rounded">Simpan</button>
-        </div>
-    </div>
-</div>
-
-<!-- =======================
-    MODAL EDIT
-======================= -->
-<div id="editModal"
-    class="fixed inset-0 bg-black bg-opacity-40 hidden justify-center items-center z-50">
-
-    <div class="bg-white w-11/12 md:w-1/2 rounded-xl p-6 shadow-lg">
-
-        <h2 class="text-2xl font-semibold mb-4">Edit Paket</h2>
-
-        <input type="hidden" id="editIndex">
-
-        <div class="mb-4">
-            <label class="font-semibold">Nama Paket</label>
-            <input id="editNama" type="text" class="w-full border p-2 rounded-lg">
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Harga</label>
-            <input id="editHarga" type="number" class="w-full border p-2 rounded-lg">
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Fitur Paket (enter per baris)</label>
-            <textarea id="editFitur" class="w-full border p-2 rounded-lg"></textarea>
-        </div>
-
-        <div class="mb-4">
-            <label class="font-semibold">Bahasa Tersedia</label>
-
-            <div class="grid grid-cols-3 gap-3 mt-2">
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Inggris" class="edit-bahasa">
-                    <span>Inggris</span>
-                </label>
-
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Jepang" class="edit-bahasa">
-                    <span>Jepang</span>
-                </label>
-
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" value="Korea" class="edit-bahasa">
-                    <span>Korea</span>
-                </label>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeAddModal()" class="btn btn-ghost">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
-        </div>
-
-        <div class="flex justify-end mt-6">
-            <button onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 rounded mr-2">Batal</button>
-
-            <button onclick="saveEdit()" 
-                class="px-4 py-2 bg-yellow-500 text-white rounded">Update</button>
-        </div>
+        </form>
     </div>
-</div>
-
-<!-- =======================
-    MODAL DELETE
-======================= -->
-<div id="deleteModal"
-    class="fixed inset-0 bg-black bg-opacity-40 hidden justify-center items-center z-50">
-
-    <div class="bg-white w-96 rounded-xl p-6 shadow-lg text-center">
-
-        <h2 class="text-xl font-semibold">Hapus Paket Ini?</h2>
-
-        <input type="hidden" id="deleteIndex">
-
-        <div class="flex justify-center mt-4">
-            <button onclick="closeDeleteModal()" 
-                class="px-4 py-2 bg-gray-300 rounded mr-2">Batal</button>
-
-            <button onclick="confirmDelete()" 
-                class="px-4 py-2 bg-red-600 text-white rounded">Hapus</button>
-        </div>
-    </div>
-</div>
-
 @endsection
 
 @push('scripts')
 <script>
-    // ==============================
-    //  DATA TANPA DATABASE
-    // ==============================
-    let pakets = [
-        {
-            nama: "Basic",
-            harga: 150000,
-            fitur: ["Akses 1 Bulan", "Materi Dasar"],
-            bahasa: ["Inggris"]
-        },
-        {
-            nama: "Intermediate",
-            harga: 250000,
-            fitur: ["Akses 2 Bulan", "Materi Menengah", "Quiz"],
-            bahasa: ["Inggris", "Jepang"]
-        }
-    ];
-
-    // ==============================
-    //  TAMPILKAN DATA
-    // ==============================
-    function renderTable() {
-        const list = document.getElementById('paketList');
-        list.innerHTML = "";
-
-        pakets.forEach((p, i) => {
-            list.innerHTML += `
-                <tr class="border-b">
-                    <td class="p-4 font-semibold">${p.nama}</td>
-
-                    <td class="p-4">
-                        <ul class="list-disc ml-4 text-gray-600">
-                            ${p.fitur.map(f => `<li>${f}</li>`).join("")}
-                        </ul>
-                    </td>
-
-                    <td class="p-4 text-center font-bold">Rp${p.harga.toLocaleString()}</td>
-
-                    <td class="p-4 text-center">
-                        ${p.bahasa.map(b => `
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs mr-1">
-                                ${b}
-                            </span>
-                        `).join("")}
-                    </td>
-
-                    <td class="p-4 text-center">
-                        <button onclick="openEditModal(${i})"
-                            class="bg-yellow-400 px-3 py-1 rounded-lg mr-2">Edit</button>
-
-                        <button onclick="openDeleteModal(${i})"
-                            class="bg-red-500 text-white px-3 py-1 rounded-lg">Hapus</button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    renderTable();
-
-
-    // ==============================
-    //  ADD
-    // ==============================
     function openAddModal() {
-        document.getElementById('addModal').classList.remove('hidden');
-        document.getElementById('addModal').classList.add('flex');
+        const m = document.getElementById('addModal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
     }
-
     function closeAddModal() {
-        document.getElementById('addModal').classList.add('hidden');
+        const m = document.getElementById('addModal');
+        m.classList.add('hidden');
+        m.classList.remove('flex');
     }
 
-    function saveAdd() {
-        let nama = document.getElementById('addNama').value;
-        let harga = document.getElementById('addHarga').value;
-        let fitur = document.getElementById('addFitur').value.split("\n");
-        let bahasa = Array.from(document.querySelectorAll('.add-bahasa:checked')).map(cb => cb.value);
-
-        pakets.push({ nama, harga, fitur, bahasa });
-
-        renderTable();
-        closeAddModal();
-    }
-
-    // ==============================
-    //  EDIT
-    // ==============================
-    function openEditModal(index) {
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
-
-        document.getElementById('editIndex').value = index;
-
-        let p = pakets[index];
-
-        document.getElementById('editNama').value = p.nama;
-        document.getElementById('editHarga').value = p.harga;
-        document.getElementById('editFitur').value = p.fitur.join("\n");
-
-        document.querySelectorAll('.edit-bahasa').forEach(cb => {
-            cb.checked = p.bahasa.includes(cb.value);
-        });
-    }
-
-    function closeEditModal() {
-        document.getElementById('editModal').classList.add('hidden');
-    }
-
-    function saveEdit() {
-        let index = document.getElementById('editIndex').value;
-
-        pakets[index].nama = document.getElementById('editNama').value;
-        pakets[index].harga = document.getElementById('editHarga').value;
-        pakets[index].fitur = document.getElementById('editFitur').value.split("\n");
-        pakets[index].bahasa = Array.from(document.querySelectorAll('.edit-bahasa:checked')).map(cb => cb.value);
-
-        renderTable();
-        closeEditModal();
-    }
-
-    // ==============================
-    //  DELETE
-    // ==============================
-    function openDeleteModal(i) {
-        document.getElementById('deleteModal').classList.remove('hidden');
-        document.getElementById('deleteModal').classList.add('flex');
-        document.getElementById('deleteIndex').value = i;
-    }
-
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').classList.add('hidden');
-    }
-
-    function confirmDelete() {
-        let index = document.getElementById('deleteIndex').value;
-        pakets.splice(index, 1);
-        renderTable();
-        closeDeleteModal();
-    }
+    // Re-open modal automatically if validation failed
+    @if ($errors->any())
+        openAddModal();
+    @endif
 </script>
 @endpush

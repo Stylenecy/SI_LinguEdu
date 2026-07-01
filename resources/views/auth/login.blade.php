@@ -1,68 +1,65 @@
 @extends('layouts.main')
-@section('title', 'Login - LinguEdu')
+@section('title', 'Masuk — LinguEdu')
 
 @section('content')
-    <div class="min-h-screen flex items-center justify-center bg-blue-50 py-16 px-4">
-        <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
-            <h1 class="text-3xl font-bold text-center text-gray-900 mb-2">Selamat Datang Kembali!</h1>
-            <p class="text-center text-gray-500 mb-8">Masuk ke akun LinguEdu Anda untuk melanjutkan pembelajaran.</p>
+<div class="grid min-h-screen lg:grid-cols-2">
+    {{-- Brand panel --}}
+    <div class="mesh-brand relative hidden flex-col justify-between p-12 lg:flex">
+        <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-white/15 text-white">
+                <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5"><path d="M4 5h11M4 5v11m0-11 8 8m4 3 4 0m-4 0-3-7 7 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="text-xl font-display font-semibold text-white">LinguEdu</span>
+        </a>
+        <div>
+            <h2 class="font-display text-4xl font-semibold leading-tight text-white">Lanjutkan<br>perjalanan belajarmu.</h2>
+            <p class="mt-4 max-w-sm text-white/75">Masuk untuk membuka materi berikutnya, melihat progres, dan mengejar sertifikatmu.</p>
+        </div>
+        <p class="text-sm text-white/50">© {{ date('Y') }} LinguEdu</p>
+    </div>
 
-            <!-- 🔔 Notifikasi -->
-            @if(session('error'))
-                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg text-center">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @if(session('success'))
-                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg text-center">
-                    {{ session('success') }}
-                </div>
+    {{-- Form --}}
+    <div class="flex items-center justify-center bg-paper px-6 py-12">
+        <div class="w-full max-w-sm">
+            <a href="{{ route('home') }}" class="mb-8 inline-flex items-center gap-2 text-sm text-muted lg:hidden">← Kembali</a>
+            <span class="eyebrow">Selamat datang kembali</span>
+            <h1 class="mt-2 text-3xl font-semibold text-ink">Masuk ke LinguEdu</h1>
+            <p class="mt-2 text-sm text-muted">Belum punya akun?
+                <a href="{{ route('register') }}" class="font-semibold text-brand hover:underline">Daftar gratis</a>
+            </p>
+
+            @if ($errors->any())
+                <div class="alert alert-danger mt-6">{{ $errors->first() }}</div>
             @endif
 
-            <!-- Form Login -->
-            <form method="POST" action="{{ route('login.simulasi.post') }}">
+            <form method="POST" action="{{ route('login.post') }}" class="mt-6 space-y-4">
                 @csrf
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" name="email" placeholder="email@anda.com" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary bg-gray-50">
-                    @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                <div>
+                    <label for="email" class="field-label">Email</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
+                           class="field" placeholder="email@anda.com">
                 </div>
-
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary bg-gray-50">
-                    @error('password')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                <div>
+                    <label for="password" class="field-label">Password</label>
+                    <input type="password" id="password" name="password" required class="field" placeholder="••••••••">
                 </div>
-
-                <div class="mb-4 flex items-center">
-                    <input type="checkbox" id="remember" name="remember" class="mr-2">
-                    <label for="remember" class="text-sm text-gray-700">Ingat Saya</label>
-                </div>
-
-                <button type="submit"
-                    class="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
-                    Masuk Sekarang
-                </button>
+                <label class="flex items-center gap-2 text-sm text-muted">
+                    <input type="checkbox" name="remember" class="rounded border-line text-brand-600 focus:ring-brand-400"> Ingat saya
+                </label>
+                <button type="submit" class="btn btn-primary w-full">Masuk</button>
             </form>
 
-            <p class="text-sm text-center text-gray-500 mt-6">
-                Belum punya akun?
-                <a href="{{ route('register.simulasi') }}" class="text-blue-600 font-medium hover:underline">
-                    Daftar di sini
-                </a>
-            </p>
-            <p class="text-sm text-center text-gray-500 mt-2">
-                Lupa password?
-                <a href="{{ route('password.request') }}" class="text-blue-600 font-medium hover:underline">
-                    Reset di sini
-                </a>
-            </p>
+            <div class="mt-6 flex items-center justify-between text-sm">
+                <a href="{{ route('password.request') }}" class="text-muted hover:text-brand">Lupa password?</a>
+                <a href="{{ route('admin.login') }}" class="text-muted hover:text-brand">Masuk sebagai admin →</a>
+            </div>
+
+            <div class="mt-8 rounded-2xl border border-line bg-surface p-4 text-xs text-muted">
+                <p class="font-semibold text-ink">Akun demo</p>
+                <p class="mt-1">Siswa: <span class="text-brand">siswa@linguedu.com</span> / password</p>
+                <p>Admin: <span class="text-brand">adminlinguedu@gmail.com</span> / admin1234</p>
+            </div>
         </div>
     </div>
+</div>
 @endsection
