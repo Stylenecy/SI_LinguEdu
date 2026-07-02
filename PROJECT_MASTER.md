@@ -1,7 +1,7 @@
 # PROJECT MASTER — LinguEdu
 
 > Nyawa proyek. Baca ini pertama sebelum ngoding di sini.
-> Last updated: **2026-06-21** (Claude Opus 4.8) — modernisasi + backend dibangun, web fungsional.
+> Last updated: **2026-07-02** (Kamis, 2 Juli 2026 - 17:08) — Pembersihan repo, integrasi GitHub, dan setup siap deploy Railway (Jalur B - Portofolio).
 
 ---
 
@@ -45,11 +45,15 @@ benar-benar jalan & deploy-ready.
 - **Diverifikasi end-to-end** (curl): login 200, lesson flow 200, submit kuis → skor 100 tersimpan,
   laporan update, admin 6 halaman 200, role gate 403, register bikin user baru + auto-login.
 
+### Sesi 2026-07-02 (Kamis, 2 Juli 2026) — CLEAN COMMITS & INTEGRASI DEPLOY 🚀
+- **Arah Strategis:** Dipilih **Jalur B (Portfolio Piece / Portofolio Kerja)** demi hasil jadi yang fungsional penuh, deployable, dan rapi di CV & LinkedIn.
+- **Pembersihan & Pengelompokan Commit (Clean Slate):** Menghapus semua folder/file sisa sengketa git (`SI_LinguEdu`, `er`, `er --allow-unrelated-histories`). 15+ file sisa dikelompokkan secara rapi ke dalam 4 commit logis terstruktur, lalu di-push bersih ke `origin/main`.
+- **Kesiapan Deploy (Railway Setup):** Ditambahkan file konfigurasi `railway.json` untuk auto-build menggunakan Nixpacks (Nginx + PHP-FPM bawaan). Panduan deploy produksi lengkap (termasuk migrasi otomatis & auto-seeding MySQL) telah diintegrasikan ke dalam `docs/SETUP.md`.
+
 ---
 
 ## 🔵 PRESENT — fokus aktif
-Aplikasi **JALAN & fungsional di lokal**. Demo loop lengkap: daftar → belajar → kuis → progress → sertifikat.
-Belum di-deploy ke server publik.
+Aplikasi **SIAP DEPLOY** ke platform awan (Railway/Render). Kode di lokal 100% sinkron dengan GitHub `Stylenecy/SI_LinguEdu`.
 
 ### Akun demo
 - **Admin:** `adminlinguedu@gmail.com` / `admin1234`
@@ -58,7 +62,7 @@ Belum di-deploy ke server publik.
 ---
 
 ## 🔮 FUTURE — roadmap
-1. **Deploy** (lihat `docs/SETUP.md` §Deploy). Ganti SQLite → MySQL/Postgres, set `APP_ENV=production`.
+1. **Eksekusi Deploy ke Railway:** Hubungkan repo GitHub ke Railway, tambahkan service MySQL, masukkan env variables sesuai panduan `docs/SETUP.md`.
 2. Upload bukti pembayaran + verifikasi paket (alur paket saat ini belum transaksional).
 3. Edit/Update materi & soal di admin (sekarang ada Create + Delete; Update belum).
 4. Sertifikat PDF server-side (sekarang `window.print()` browser).
